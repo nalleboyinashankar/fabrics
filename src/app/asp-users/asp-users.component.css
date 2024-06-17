@@ -1,0 +1,146 @@
+.custom-header th {
+    background-color: #5009b5; /* Your desired background color */
+    color: white; /* Text color */
+    padding: 10px; /* Padding for better spacing */
+    text-align: left; /* Text alignment */
+}
+
+/* Optional: Add some hover effects for headers */
+.custom-header th:hover {
+    background-color:#5009b5; 
+}
+.hover-column:hover {
+    background-color: #f0f0f0; /* Change this to the desired hover color */
+    cursor: pointer;
+}
+.caption-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.p-input-icon-left {
+    display: flex;
+    align-items: center;
+}
+
+.colmsearch {
+    margin-left: 5px; /* Adjust this margin as needed */
+}
+
+:host ::ng-deep {
+    .p-progressbar {
+        height: .5rem;
+        background-color: #D8DADC;
+    
+        .p-progressbar-value {
+            background-color: #607D8B;
+        }
+    }
+}
+
+/* 
+<p-dialog *ngIf="showform" [(visible)]="showform" [style]="{width: '60vw', 'background-color': 'white'}" [closable]="true">
+    <form [formGroup]="userform">
+        <div class="p-5" style="font-family: 'Times New Roman', Times, serif;">
+            <div class="row">
+                <div class="col-4">
+                    <label for="UserName" style="margin-bottom: 10px;">UserName:</label>
+                    <input type="text" placeholder="Enter Name" class="form-control" id="UserName"
+                        formControlName="UserName" pattern="^[a-zA-Z\s]*$" minlength="7" maxlength="15">
+                </div>
+                <div class="col-4">
+                    <label for="FullName">Full Name:</label>
+                    <input type="text" id="FullName" formControlName="FullName">
+
+                </div>
+                <div class="col-4">
+                    <label for="Email">Email:</label>
+                    <input type="email" id="Email" formControlName="Email">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <label for="MobileNumber">Mobile Number:</label>
+                    <input type="text" id="MobileNumber" formControlName="MobileNumber">
+
+                </div>
+                <div class="col-4">
+                    <label for="DepartmentName">Department Name:</label>
+                    <input type="text" id="DepartmentName" formControlName="DepartmentName">
+                </div>
+                <div class="col-4">
+                    <label for="FactoryName">Factory Name:</label>
+                    <input type="text" id="FactoryName" formControlName="FactoryName">
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-4">
+                    <label for="ReportingManager">Reporting Manager:</label>
+                    <input type="text" id="ReportingManager" formControlName="ReportingManager">
+
+                </div>
+                <div class="col-4">
+                    <label for="IsActive">Is Active:</label>
+                    <input type="checkbox" id="IsActive" formControlName="IsActive">
+                </div>
+             
+            </div>
+
+        </div>
+    </form>
+</p-dialog> */
+
+.custom-button {
+    background-color: #5009b5;
+    /* Add any additional styling here */
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Adjust the gap as needed */
+}
+
+.flex-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Add this to your component's CSS file */
+
+/* Add this to your component's CSS file */
+
+.required-asterisk {
+    color: red;
+}
+
+.container {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust the gap as needed */
+}
+
+.col-md-4 {
+    flex: 0 0 30%; /* Set the width of each column to 30% */
+    max-width: 30%;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+}
+

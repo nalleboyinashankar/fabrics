@@ -1,0 +1,37 @@
+.green-tick-circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: green;
+    color: white;
+    text-align: center;
+    line-height: 20px;
+  }
+  .required-asterisk {
+    color: red;
+}
+
+.container {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust the gap as needed */
+}
+
+.col-md-4 {
+    flex: 0 0 30%; /* Set the width of each column to 30% */
+    max-width: 30%;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+}

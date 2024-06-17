@@ -1,0 +1,139 @@
+<p-table #dt1 [value]="buyers" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="['BuyerName', 'Name', 'CountryName','CommissionType','CommissionPercentage']">
+    <ng-template pTemplate="caption">
+        <div class="caption-container" style="display: flex; justify-content: space-between; align-items: center;">
+            <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search">
+                <input pInputText type="text" class="colmsearch" placeholder="Search"
+                    (input)="dt1.filterGlobal($any($event.target).value, 'contains')"> </i>
+            </span>
+            <button pButton pRipple label="+Add" class="custom-button" (click)="openadd()"></button>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr class="custom-header" style="font-family: 'Times New Roman', Times, serif;">
+            <th pSortableColumn="BuyerName" style="width:20%">
+                BuyerName 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="BuyerName"></p-sortIcon>
+                    <p-columnFilter type="text" field="BuyerName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="Name" style="width:20%">
+                BuyingHouseName 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="Name"></p-sortIcon>
+                    <p-columnFilter type="text" field="Name" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="CountryName" style="width:20%">
+                country
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="CountryName"></p-sortIcon>
+                    <p-columnFilter type="text" field="CountryName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="CommissionType" style="width:20%">
+                CommissionType 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="CommissionType"></p-sortIcon>
+                    <p-columnFilter type="text" field="CommissionType" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="CommissionPercentage" style="width:20%">
+                Commission(%) 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="CommissionPercentage"></p-sortIcon>
+                    <p-columnFilter type="text" field="CommissionPercentage" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="IsActive" style="width:20%">
+                Active <p-sortIcon field="IsActive"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Actions" style="width:20%">
+                Actions <p-sortIcon field="Actions"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-buyer>
+        <tr style="font-family: 'Times New Roman', Times, serif;">
+            <td>{{ buyer.BuyerName }}</td>
+            <td>{{ buyer.Name }}</td>
+            <td>{{ buyer.CountryName }}</td>
+            <td>{{ buyer.CommissionType }}</td>
+            <td>{{ buyer.CommissionPercentage }}</td>
+            <td>
+                <i *ngIf="buyer.IsActive" class="pi pi-check green-tick-circle"></i>
+                <i *ngIf="!buyer.IsActive" class="pi pi-times" style="color: red;"></i>
+            </td>
+            <td>
+                <span (click)="editbuyer(buyer)"
+                    style="cursor: pointer; color: aqua; display: inline-block; margin-right: 5px;">
+                    <i class="pi pi-user-edit"></i>
+                </span>
+                <span (click)="deletebuyerdata(buyer.Id)" style="cursor: pointer; color: red; display: inline-block;">
+                    <i class="pi pi-trash"></i>
+                </span>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="Buyer" [(visible)]="showform" [style]="{width: '70vw','background-color':'white'}">
+    <div class="container">
+        <form class="row g-3" [formGroup]="buyerform" style="font-family: 'Times New Roman', Times, serif;">
+            <div class="col-md-4">
+                <label for="BuyerName" class="form-label">BuyerName <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="BuyerName" class="form-control" formControlName="BuyerName">
+            </div>
+
+            <div class="col-md-4">
+                <label for="BuyingHouseName" class="form-label">BuyingHouseName <span class="required-asterisk">*</span>
+                    :</label>
+                <p-dropdown formControlName="BuyingHouseId" [options]="lookups" optionLabel="Name" optionValue="Id"
+                    placeholder="Select a Buying House" appendTo="body">
+                </p-dropdown>
+            </div>
+
+            <div class="col-md-4">
+                <label for="CountryName" class="form-label">CountryName <span class="required-asterisk">*</span>
+                    :</label>
+                <p-dropdown formControlName="CountryId" [options]="countries" optionLabel="CountryName"
+                    optionValue="CountryId" placeholder="Select a Country" [showClear]="true" [filter]="true"
+                    appendTo="body" [style]="{ width: '100%' }">
+                </p-dropdown>
+            </div>
+
+            <div class="col-md-4">
+                <label for="CommissionType" class="form-label">CommissionType <span class="required-asterisk">*</span>
+                    :</label>
+                <p-dropdown formControlName="CommissionTypeId" [options]="descs" optionLabel="Desc"
+                    optionValue="TypeCdId" placeholder="Select a Commission Type" appendTo="body"
+                    [style]="{ width: '100%' }">
+                </p-dropdown>
+            </div>
+
+            <div class="col-md-4">
+                <label for="CommissionPercentage" class="form-label">CommissionPercentage <span
+                        class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="CommissionPercentage" class="form-control"
+                    formControlName="CommissionPercentage">
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary" [disabled]="buyerform.invalid" (click)="Submit()">Create</button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+

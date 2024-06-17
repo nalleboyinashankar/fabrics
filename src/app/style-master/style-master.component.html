@@ -1,0 +1,262 @@
+<p-table #dt1 [value]="styles" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="['BuyerStyleNumber', 'BuyerName', 'SeasonTypeName', 'UserName', 'GarmentTypeName', 'GarmentProcessDesc',
+     'TechPackName', 'TechPackSampleReceivedDate', 'SampleTypeDesc','OrderTypeDesc', 'OrderTypeId', 'ExpectedOrderDate','ExpectedOrderQty','IsActive']">
+    <ng-template pTemplate="caption">
+           
+        <div class="caption-container" style="display: flex; justify-content: space-between; align-items: center;">
+            <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" class="colmsearch" placeholder="Search"
+                    (input)="dt1.filterGlobal($any($event.target).value, 'contains')">
+            </span>
+            <button pButton pRipple label="+Add" class="custom-button"   (click)="openadd()"></button>
+        </div>
+    </ng-template>
+    <!-- <th pSortableColumn="FromMail" style="min-width:15rem">
+        <div class="flex align-items-center">
+            FromMail 
+            <p-sortIcon field="FromMail"></p-sortIcon>
+            <p-columnFilter type="text" field="FromMail" display="menu"></p-columnFilter>
+        </div>
+    </th> -->
+    <ng-template pTemplate="header">
+        <tr class="custom-header" style="font-family: 'Times New Roman', Times, serif;">
+            <!-- <th pSortableColumn="FromMail" style="min-width:15rem">
+                <div class="flex align-items-center">
+                    FromMail 
+                    <p-sortIcon field="FromMail"></p-sortIcon>
+                    <p-columnFilter type="text" field="FromMail" display="menu"></p-columnFilter>
+                </div>
+            </th> -->
+            <th pSortableColumn="BuyerStyleNumber" style="width:20%">
+                BuyerDetails
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="BuyerStyleNumber"></p-sortIcon>
+                    <p-columnFilter type="text" field="BuyerStyleNumber" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            
+            <th pSortableColumn="UserName" style="width:20%">
+                MerchantName <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="UserName"></p-sortIcon>
+                    <p-columnFilter type="text" field="UserName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="GarmentTypeName" style="width:20%">
+                GarmentDetails 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="GarmentTypeName"></p-sortIcon>
+                    <p-columnFilter type="text" field="GarmentTypeName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+     
+            <th pSortableColumn="TechPackName" style="width:20%">
+                TechpackDetails 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="TechPackName"></p-sortIcon>
+                    <p-columnFilter type="text" field="TechPackName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="SampleTypeDesc" style="width:20%">
+                SamplingDetails
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="SampleTypeDesc"></p-sortIcon>
+                    <p-columnFilter type="text" field="SampleTypeDesc" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="OrderTypeDesc" style="width:20%">
+              OrderDetails 
+              <div class="flex align-items-center">
+                 
+                <p-sortIcon field="OrderTypeDesc"></p-sortIcon>
+                <p-columnFilter type="text" field="OrderTypeDesc" display="menu"></p-columnFilter>
+            </div>
+            </th>
+           
+            <th pSortableColumn="IsActive" style="width:20%">
+                Active <p-sortIcon field="IsActive"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Actions" style="width:20%">
+                Actions <p-sortIcon field="Actions"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-style>
+        <tr style="font-family: 'Times New Roman', Times, serif;">
+            <td>{{ 'Buyerstyle: ' + style.BuyerStyleNumber + ', BuyerName: ' + style.BuyerName + ', Season: ' + style.SeasonTypeName }}</td> 
+            <td>{{ style.UserName }}</td>
+            <td>{{ 'GarmentType:' + style.GarmentTypeName + ',GarmentProcess:' + style.GarmentProcessDesc }}</td>
+            <td>{{ 'TechpackName:' + style.TechPackName + ',TechpackReceivedate:' + style.TechPackSampleReceivedDate }}</td>
+            <td>{{ 'Sampling:' + style.SampleTypeDesc }}</td>
+            <td>{{ 'Orderstate:' + style.OrderTypeDesc + ',OrderNumber:' + style.OrderTypeId + ',OrderDate:' + style.ExpectedOrderDate + ',OrderQty:' + style.ExpectedOrderQty }}</td>
+            <td>
+                <i *ngIf="style.IsActive" class="pi pi-check green-tick-circle"></i>
+                <i *ngIf="!style.IsActive"  class="pi pi-times" style="color: red;"></i>
+            </td>
+            <td>
+                <span (click)="editstyle(style)" style="cursor: pointer; color: aqua; display: inline-block; margin-right: 5px;">
+                    <i class="pi pi-user-edit"></i>
+                </span>
+                <span (click)="deletestyledata(style.StyleMasterId)" style="cursor: pointer; color: red; display: inline-block;">
+                    <i class="pi pi-trash"></i>
+                </span>
+            </td>
+        </tr>
+        <hr>
+        
+        
+    </ng-template>
+</p-table>
+
+<p-dialog header="StyleMaster" [(visible)]="showform" [style]="{width: '70vw','background-color':'white'}">
+    <div class="container">
+        <form class="row g-3" [formGroup]="styleform" style="font-family: 'Times New Roman', Times, serif;">
+       
+            <div class="col-md-4">
+                <label for="MerchantName" class="form-label">MerchantName <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="MerchantName" class="form-control" formControlName="UserName">
+            </div>
+            <div class="col-md-4">
+                <label for="BuyerStyle" class="form-label">BuyerStyle<span class="required-asterisk">*</span>:</label> 
+                <input type="text" pInputText id="BuyerStyle" class="form-control" formControlName="BuyerStyleNumber">
+            </div>
+            
+                    
+                    <div class="col-md-4">
+                    <label for="Buyer" class="form-label">Buyer<span class="required-asterisk">*</span>:</label>
+                    <p-dropdown 
+                        formControlName="BuyerId" 
+                        [options]="buyers"
+                        optionLabel="BuyerName"
+                        optionValue="Id"
+                        placeholder="--select--" 
+                        appendTo="body" 
+                        [style]="{ width: '100%' }" >
+                    </p-dropdown> 
+                </div>
+                <div class="col-md-4">
+                    <label for="Season" class="form-label">Season<span class="required-asterisk">*</span>:</label>
+                    <p-dropdown 
+                        formControlName="SeasonTypeId" 
+                        [options]="getseasonsdata"
+                        optionLabel="SeasonTypeName"
+                        optionValue="Id"
+                        placeholder="--select--" 
+                        appendTo="body" 
+                        [style]="{ width: '100%' }">
+                    </p-dropdown> 
+                </div> 
+            
+                
+
+              
+            <div class="col-md-4">
+                <label for="GarmentType" class="form-label">GarmentType<span class="required-asterisk">*</span>:</label>
+                <p-dropdown 
+                formControlName="GarmentTypeId" 
+                [options]="getgarmentdata"
+                optionLabel="GarmentTypeName"
+                optionValue="Id"
+
+                placeholder="--select--" 
+                appendTo="body" [style]="{ width: '100%' }" > </p-dropdown>  
+            </div>
+            <div class="col-md-4">
+                <label for="GarmentProcess" class="form-label">GarmentProcess<span class="required-asterisk">*</span>:</label>
+                <p-dropdown 
+                formControlName="GarmentProcessId" 
+                [options]="getgarmentprocess"
+                optionLabel="GarmentProcessDesc"
+                optionValue="Id"
+
+                placeholder="--select--" 
+                appendTo="body" [style]="{ width: '100%' }" > </p-dropdown>  
+            </div>
+            <div class="col-md-4">
+                <label for="TechPackName" class="form-label">TechPackName<span class="required-asterisk">*</span>:</label>
+                <input type="text" pInputText id="TechPackName" class="form-control" formControlName="TechPackName">
+
+            </div> 
+            <div class="col-md-4">
+            <label for="Filepath" class="form-label">Filepath:</label><br>
+            <input type="file" (change)="getFile($event)" formControlName="FileName" accept=".pdf,.doc,.docx" /><br>
+            </div>
+            <div class="col-md-4">
+                <label for="TechPackDesc" class="form-label">TechPackDesc<span class="required-asterisk">*</span>:</label>
+                <input type="text" pInputText id="TechPackDesc" class="form-control" formControlName="Description">
+
+            </div> 
+            <div class="col-md-4">
+                <label for="TechPackSampleReceivedDate" class="form-label">TechPackSampleReceivedDate<span class="required-asterisk">*</span>:</label>
+                <input type="date"   pInputText id="TechPackSampleReceivedDate" class="form-control" formControlName="TechPackSampleReceivedDate">
+
+            </div> 
+
+            <!-- <div class="col-md-4">
+                <label for="TechPackSampleReceivedDate" class="form-label">TechPackSampleReceivedDate<span class="required-asterisk">*</span>:</label>
+                <input type="text" pInputText id="TechPackSampleReceivedDate" class="form-control" formControlName="TechPackSampleReceivedDate">
+
+            </div>  -->
+<br>
+<div class="row g-3" >
+    
+
+            <div class="col-md-4">
+                <label for="SamplingType" class="form-label">SamplingType<span class="required-asterisk">*</span>:</label>
+                <p-dropdown 
+                formControlName="SampleTypeId" 
+                [options]="getsampletypedata"
+                optionLabel="SampleTypeDesc"
+                optionValue="SampleTypeId"
+                placeholder="--select--" 
+                appendTo="body" [style]="{ width: '100%' }" > </p-dropdown>  
+            </div>
+
+            <div class="col-md-4">
+                <label for="SampleSubmissionDate" class="form-label">SampleSubmissionDate<span class="required-asterisk">*</span>:</label>
+                <input type="date" pInputText id="SampleSubmissionDate" class="form-control" formControlName="SampleSubmissionDate">
+
+            </div> 
+    </div>
+            <div class="row g-3" >
+                <div class="col-md-4">
+                    <label for="OrderTypeDesc" class="form-label">OrderTypeDesc<span class="required-asterisk">*</span>:</label>
+                  <p-dropdown
+                  
+                  formControlName="OrderTypeId"
+                  [options]="getorderdata"
+                  optionLabel="OrderTypeDesc"
+                  optionValue="OrderTypeId"
+                  placeholder="--select--" 
+
+                  >
+                    
+                  </p-dropdown>
+                </div>
+
+                  
+
+                  <div class="col-md-4">
+                    <label for="ExpectedOrderQty" class="form-label">ExpectedOrderQty<span class="required-asterisk">*</span>:</label>
+                    <input type="text" pInputText id="ExpectedOrderQty" class="form-control"  formControlName="ExpectedOrderQty">
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="ExpectedOrderDate" class="form-label">ExpectedOrderDate<span class="required-asterisk">*</span>:</label>
+                    <input type="date" pInputText id="ExpectedOrderDate" class="form-control"  formControlName="ExpectedOrderDate">
+                  </div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary"  (click)="Submit()">Create</button>
+            </div>
+        </form>
+    </div>
+</p-dialog>

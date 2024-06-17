@@ -1,0 +1,49 @@
+
+<button mat-icon-button (click)="nav.toggle()" class="rr">
+    <mat-icon>menu</mat-icon>
+  </button>
+  
+  <mat-sidenav-container class="sidenav-wrapper">
+    <mat-sidenav #nav>
+  
+      <a [routerLink]="['userinfo']" class="button-link">
+        <button mat-button style="color: #10898d;">
+          <mat-icon>person</mat-icon>
+          <span>Users</span>
+        </button>
+      </a>
+      <a [routerLink]="['Countryinfo']" class="button-link">
+        <button mat-button style="color: #10898d;">
+          <mat-icon>account_circle</mat-icon>
+          <span>Country</span>
+        </button>
+      </a>
+      <a [routerLink]="['stateinfo']" class="button-link">
+        <button mat-button style="color: #10898d;">
+          <mat-icon>supervisor_account</mat-icon>
+          <span>State</span>
+        </button>
+      </a>
+      <a [routerLink]="['buyerinfo']" class="button-link">
+        <button mat-button style="color: #10898d;">
+          <mat-icon>emoji_people</mat-icon>
+          <span>Buyer</span>
+        </button>
+      </a>
+      <a [routerLink]="['Order']" class="button-link">
+        <button mat-button style="color: #10898d;">
+          <mat-icon>group_add</mat-icon>
+          <span>Order</span>
+        </button>
+      </a>
+      <a [routerLink]="['Reports']">
+        <button mat-button style="color: #10898d;">
+          <mat-icon>folder</mat-icon>
+          <span>Reports</span>
+        </button>
+      </a>
+  
+    </mat-sidenav>
+    <router-outlet></router-outlet>
+  </mat-sidenav-container>
+  

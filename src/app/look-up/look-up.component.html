@@ -1,0 +1,102 @@
+<p-table #dt1 [value]="lookups" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="['Type', 'Name', 'Remarks', 'IsActive']">
+    <ng-template pTemplate="caption">
+        <div class="caption-container" style="display: flex; justify-content: space-between; align-items: center;">
+            <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" class="colmsearch" placeholder="Search"
+                    (input)="dt1.filterGlobal($any($event.target).value, 'contains')">
+            </span>
+            <button pButton pRipple label="+Add" class="custom-button" (click)="openadd()"></button>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr class="custom-header" style="font-family: 'Times New Roman', Times, serif;">
+            <th pSortableColumn="Type" style="width:20%">
+                Type
+                
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="Type"></p-sortIcon>
+                    <p-columnFilter type="text" field="Type" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="Name" style="width:20%">
+                Name 
+                  
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="Name"></p-sortIcon>
+                    <p-columnFilter type="text" field="Name" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="Remarks" style="width:20%">
+                Remarks 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="Remarks"></p-sortIcon>
+                    <p-columnFilter type="text" field="Remarks" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="IsActive" style="width:20%">
+                Active <p-sortIcon field="IsActive"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Actions" style="width:20%">
+                Actions <p-sortIcon field="Actions"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-product>
+        <tr style="font-family: 'Times New Roman', Times, serif;">
+            <td>{{ product.Type }}</td>
+            <td>{{ product.Name }}</td>
+            <td>{{ product.Remarks }}</td>
+            <td>
+                <i *ngIf="product.IsActive" class="pi pi-check green-tick-circle"></i>
+                <i *ngIf="!product.IsActive" class="pi pi-times" style="color: red;"></i>
+            </td>
+            <td>
+                <span (click)="editlookup(product)" style="cursor: pointer; color: aqua; display: inline-block; margin-right: 5px;">
+                    <i class="pi pi-user-edit"></i>
+                </span>
+                <span  (click)="deletelookup(product.Id)" style="cursor: pointer; color: red; display: inline-block;">
+                    <i class="pi pi-trash"></i>
+                </span>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="LookUp" [(visible)]="showform" [style]="{width: '70vw','background-color':'white'}">
+    <div class="container">
+        <form class="row g-3" [formGroup]="lookupform" style="font-family: 'Times New Roman', Times, serif;">
+            <div class="col-md-4">
+                <label for="Type" class="form-label">Category <span class="required-asterisk">*</span> :</label>
+                <p-dropdown 
+                formControlName="LookUpId"  
+                [options]="descs" 
+                optionLabel="Desc"
+                optionValue="TypeCdId"
+                placeholder="Select a Category"
+                appendTo="body">
+            </p-dropdown>
+            
+            </div>
+            <div class="col-md-4">
+                <label for="Name" class="form-label">Name <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="Name" class="form-control" formControlName="Name">
+            </div>
+            <div class="col-md-4">
+                <label for="Remarks" class="form-label">Remarks <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="Remarks" class="form-control" formControlName="Remarks">
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" [disabled]="lookupform.invalid" (click)="Submit()">Create</button>
+            </div>
+        </form>
+    </div>
+</p-dialog>

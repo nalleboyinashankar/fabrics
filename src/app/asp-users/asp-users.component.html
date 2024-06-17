@@ -1,0 +1,260 @@
+<!-- asp-users.component.html -->
+
+<p-table #dt1 [value]="Users" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="['UserName', 'Email', 'MobileNumber', 'DepartmentName', 'ReportingManager', 'FactoryName']">
+    <ng-template pTemplate="caption">
+        <div class="caption-container" style="display: flex; justify-content: space-between; align-items: center;">
+            <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" class="colmsearch" placeholder="Search"
+                    (input)="dt1.filterGlobal($any($event.target).value, 'contains')">
+            </span>
+            <button pButton pRipple label="+Add" class="custom-button" (click)="addUser()"></button>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr class="custom-header" style="font-family: 'Times New Roman', Times, serif;">
+            <th pSortableColumn="UserName" style="width:20%">
+                Username  <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="UserName"></p-sortIcon>
+                    <p-columnFilter type="text" field="UserName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="Email" style="width:20%">
+                Email 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="Email"></p-sortIcon>
+                    <p-columnFilter type="text" field="Email" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="MobileNumber" style="width:20%">
+                Mobile Number
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="MobileNumber"></p-sortIcon>
+                    <p-columnFilter type="text" field="MobileNumber" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="DepartmentName" style="width:20%">
+                Department 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="DepartmentName"></p-sortIcon>
+                    <p-columnFilter type="text" field="DepartmentName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="ReportingManager" style="width:20%">
+                Reporting Manager 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="ReportingManager"></p-sortIcon>
+                    <p-columnFilter type="text" field="ReportingManager" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="FactoryName" style="width:20%">
+                Factory 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="FactoryName"></p-sortIcon>
+                    <p-columnFilter type="text" field="FactoryName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="FactoryName" style="width:20%">
+                Actions <p-sortIcon field="FactoryName"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-product>
+        <tr style="font-family: 'Times New Roman', Times, serif;">
+            <td>{{ product.UserName }}</td>
+            <td>{{ product.Email }}</td>
+            <td>{{ product.MobileNumber }}</td>
+            <td>{{ product.DepartmentName }}</td>
+            <td>{{ product.ReportingManager }}</td>
+            <td>{{ product.FactoryName }}</td>
+
+
+            <td>
+                <span (click)="edituser(product)" style="cursor: pointer; color: aqua; display: inline-block; margin-right: 5px;">
+                    <i class="pi pi-user-edit"></i>
+                </span>
+                
+                <span (click)="deleteuserdata(product.Id)" style="cursor: pointer; color: red; display: inline-block;">
+                    <i class="pi pi-trash"></i>
+                </span>
+            </td>
+            
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog header="User" [(visible)]="showform" [style]="{width: '70vw','background-color':'white'}">
+    <div class="container">
+        <form class="row g-3" [formGroup]="userform" style="font-family: 'Times New Roman', Times, serif;">
+            <div class="col-md-4">
+                <label for="UserName" class="form-label">UserName <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="UserName" class="form-control" formControlName="UserName">
+            </div>
+            <div class="col-md-4">
+                <label for="FirstName" class="form-label">FirstName <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="FirstName" class="form-control" formControlName="FirstName">
+            </div>
+            <div class="col-md-4">
+                <label for="LastName" class="form-label">LastName <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="LastName" class="form-control" formControlName="LastName">
+            </div>
+            <div class="col-md-4">
+                <label for="Email" class="form-label">Email <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="Email" class="form-control" formControlName="Email">
+            </div>
+            <div class="col-md-4">
+                <label for="MobileNumber" class="form-label">MobileNumber <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="MobileNumber" class="form-control" formControlName="MobileNumber">
+            </div>
+            <div class="col-md-4">
+                <label for="Department" class="form-label">Department <span class="required-asterisk">*</span> :</label>
+                <p-dropdown 
+                    formControlName="DepartmentId"  
+                    [options]="descs" 
+                    optionLabel="Desc"
+                    optionValue="TypeCdId"
+                    placeholder="Select a Department"
+                    appendTo="body">
+                </p-dropdown>
+            </div>
+            <div class="col-md-4">
+                <label for="Factory" class="form-label">Factory Name <span class="required-asterisk">*</span> :</label>
+                <p-dropdown 
+                    formControlName="FactoryId" 
+                    [options]="factories" 
+                    optionLabel="FactoryName" 
+                    optionValue="Id"
+                    placeholder="Select a Factory"
+                    appendTo="body">
+                </p-dropdown>
+            </div>
+            <div class="col-md-4">
+                <label for="ReportingManager" class="form-label">ReportingManager <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="ReportingManager" class="form-control" formControlName="ReportingManager">
+            </div>
+            <div class="col-md-4">
+                <label for="IsActive" class="form-label">IsActive:</label>
+                <input type="checkbox" id="IsActive" formControlName="IsActive" checked>
+            </div>
+            <div class="col-md-4">
+                <label for="Id" class="form-label">Id <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="Id" class="form-control" formControlName="Id">
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" [disabled]="userform.invalid" (click)="Submit()">Create</button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+
+
+<!-- 
+<p-dialog *ngIf="showform" [(visible)]="showform" [style]="{width: '60vw', 'background-color': 'white'}"
+    [closable]="true">
+    <form [formGroup]="userform">
+        <div style="font-family: 'Times New Roman', Times, serif;">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="UserName">UserName:</label>
+                    <input type="UserName" id="UserName" formControlName="UserName">
+
+                </div>
+                <div class="col-md-4">
+                    <label for="FullName">Full Name:</label>
+                    <input type="text" id="FullName" formControlName="FullName">
+
+                </div>
+                <div class="col-md-4">
+                    <label for="Email">Email:</label>
+                    <input type="email" id="Email" formControlName="Email">
+
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="col-4">
+                    <label for="MobileNumber">Mobile Number:</label>
+                    <input type="text" id="MobileNumber" formControlName="MobileNumber">
+
+                </div>
+                <div class="col-4">
+                    <label for="DepartmentName">Department Name:</label>
+                    <input type="text" id="DepartmentName" formControlName="DepartmentName">
+                </div>
+                <div class="col-4">
+                    <label for="FactoryName">Factory Name:</label>
+                    <input type="text" id="FactoryName" formControlName="FactoryName">
+                </div>
+            </div>
+
+
+            <br>
+            <div class="row">
+                <div class="col-4">
+                    <label for="ReportingManager">Reporting Manager:</label>
+                    <input type="text" id="ReportingManager" formControlName="ReportingManager">
+
+                </div>
+                <BR>
+                <div class="col-4">
+                    <label for="IsActive">Is Active:</label>
+                    <input type="checkbox" id="IsActive" formControlName="IsActive">
+                </div>
+
+            </div>
+
+        </div>
+       <br>
+        <p-button pRipple  (click)="show()" (click)="Submit()" label="submit" />
+
+    </form>
+</p-dialog> -->
+
+
+<div class="flex-container">
+    <div class="flex-item">
+        <label for="username1">Username 1</label>
+        <input 
+            pInputText 
+            id="username1" 
+            aria-describedby="username1-help" 
+             />
+        <small id="username1-help">
+            Enter your first username.
+        </small>
+    </div>
+    <div class="flex-item">
+        <label for="username2">Username 2</label>
+        <input 
+            pInputText 
+            id="username2" 
+            aria-describedby="username2-help" 
+            />
+        <small id="username2-help">
+            Enter your second username.
+        </small>
+    </div>
+    <div class="flex-item">
+        <label for="username3">Username 3</label>
+        <input 
+            pInputText 
+            id="username3" 
+            aria-describedby="username3-help" 
+            />
+        <small id="username3-help">
+            Enter your third username.
+        </small>
+    </div>
+</div>

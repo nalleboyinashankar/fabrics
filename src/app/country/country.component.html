@@ -1,0 +1,114 @@
+<p-table #dt1 [value]="countries" [tableStyle]="{'min-width': '60rem'}" [paginator]="true" [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="['CountryName', 'CountryCode', 'CurrencyType','ConversionRate', 'IsActive']">
+    <ng-template pTemplate="caption">
+        <div class="caption-container" style="display: flex; justify-content: space-between; align-items: center;">
+            <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" class="colmsearch" placeholder="Search"
+                    (input)="dt1.filterGlobal($any($event.target).value, 'contains')">
+            </span>
+            <button pButton pRipple label="+Add" class="custom-button" (click)="openadd()"></button>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr class="custom-header" style="font-family: 'Times New Roman', Times, serif;">
+            <th pSortableColumn="CountryName" style="width:20%">
+                Name
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="CountryName"></p-sortIcon>
+                    <p-columnFilter type="text" field="CountryName" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="CountryCode" style="width:20%">
+                Code 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="CountryCode"></p-sortIcon>
+                    <p-columnFilter type="text" field="CountryCode" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="CurrencyType" style="width:20%">
+                Currency 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="CurrencyType"></p-sortIcon>
+                    <p-columnFilter type="text" field="CurrencyType" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="ConversionRate" style="width:20%">
+                ConversionRate 
+                <div class="flex align-items-center">
+                     
+                    <p-sortIcon field="ConversionRate"></p-sortIcon>
+                    <p-columnFilter type="text" field="ConversionRate" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="IsActive" style="width:20%">
+                Active <p-sortIcon field="IsActive"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Actions" style="width:20%">
+                Actions <p-sortIcon field="Actions"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-country>
+        <tr style="font-family: 'Times New Roman', Times, serif;">
+            <td>{{ country.CountryName }}</td>
+            <td>{{ country.CountryCode }}</td>
+            <td>{{ country.CurrencyType }}</td>
+            <td>{{ country.ConversionRate }}</td>
+    
+            <td>
+                <i *ngIf="country.IsActive" class="pi pi-check green-tick-circle"></i>
+                <i *ngIf="!country.IsActive" class="pi pi-times" style="color: red;"></i>
+            </td>
+            <td>
+                <span (click)="editcountry(country)" style="cursor: pointer; color: aqua; display: inline-block; margin-right: 5px;">
+                    <i class="pi pi-user-edit"></i>
+                </span>
+                <span (click)="deletecountrydata(country.CountryId)" style="cursor: pointer; color: red; display: inline-block;">
+                    <i class="pi pi-trash"></i>
+                </span>
+            </td>
+        </tr>
+    </ng-template>
+    
+</p-table>
+
+<p-dialog header="LookUp" [(visible)]="showform" [style]="{width: '70vw','background-color':'white'}">
+    <div class="container">
+        <form class="row g-3" [formGroup]="countryform" style="font-family: 'Times New Roman', Times, serif;">
+            <div class="col-md-4">
+                <label for="CountryName" class="form-label">Name <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="CountryName" class="form-control" formControlName="CountryName">
+            </div>
+            <div class="col-md-4">
+                <label for="CountryCode" class="form-label">Code <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="CountryCode" class="form-control" formControlName="CountryCode">
+            </div>
+            <div class="col-md-4">
+                <label for="CurrencyType" class="form-label">Currency <span class="required-asterisk">*</span> :</label>
+                <p-dropdown 
+                formControlName="CurrencyType"  
+                [options]="descs" 
+                optionLabel="Desc"
+                optionValue="TypeCdId"
+                placeholder="Select a currency"
+                appendTo="body">
+                </p-dropdown>
+            </div>
+            <div class="col-md-4">
+                <label for="ConversionRate" class="form-label">ConversionRate <span class="required-asterisk">*</span> :</label>
+                <input type="text" pInputText id="ConversionRate" class="form-control" formControlName="ConversionRate">
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" [disabled]="countryform.invalid" (click)="Submit()">Create</button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
