@@ -16,10 +16,11 @@
     width: 100%;
 }
 
+
 .row {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* Adjust the gap as needed */
+    gap: 9px; /* Adjust the gap as needed */
 }
 
 .col-md-4 {
